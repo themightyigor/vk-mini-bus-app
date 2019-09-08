@@ -1,0 +1,17 @@
+.stop_table__item {
+  display: flex;
+}
+
+.stop_table__item__title {
+  flex-basis: 50%;
+}
+
+.stop_table__item__departure {
+  margin-left: auto;
+  max-width: 100%;
+}
+
+.stop_table__header {
+  font-size: 0.8rem;
+  color: #71757a;
+}
