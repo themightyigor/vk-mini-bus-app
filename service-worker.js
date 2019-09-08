@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/vk-mini-bus-schedule/precache-manifest.4d6dafd0d2e2ef58c66f6cbf09e3b61c.js"
+  "/vk-mini-bus-app/precache-manifest.486c492ab1dd196835bace1b706d0b78.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/vk-mini-bus-schedule/index.html", {
+workbox.routing.registerNavigationRoute("/vk-mini-bus-app/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
