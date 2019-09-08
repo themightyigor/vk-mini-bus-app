@@ -23,10 +23,7 @@ const ScheduleDetail = ({ router, route }) => {
   const [details, setDetails] = useState(initialDetailsState);
   useEffect(() => {
     axios
-      .get(
-        `api/details/${route.params.uid}
-      `
-      )
+      .get(`api/details/${route.params.uid}`)
       .then(res => {
         setDetails(res.data);
       })
