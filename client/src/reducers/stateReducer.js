@@ -17,24 +17,26 @@ export const stateReducer = (draft, action) => {
       return;
     }
     case 'SET_FILTER': {
-      const newMode = action.payload;
+      let newMode = action.payload;
 
       if (newMode === draft.mode) {
         return;
       }
       draft.mode = newMode;
+
       let tempDepartures = draft.departures;
 
       if (newMode !== 'all') {
         let date = new Date();
         let formattedDate = date.toDateString();
+
         tempDepartures = tempDepartures.filter(
           schedule =>
             Date.parse(`${formattedDate} ${schedule.departure}`) > date
         );
       }
-      draft.sortedDepartures = tempDepartures;
 
+      draft.sortedDepartures = tempDepartures;
       return;
     }
     case 'TOGGLE_TOOLTIP': {
