@@ -1,22 +1,8 @@
 export const stateReducer = (draft, action) => {
   switch (action.type) {
     case 'FETCH_DATA_SUCCESS': {
-      let formatData = data => {
-        const regExp = /[—,-]/;
-        let splitTitle = title => title.split(regExp)[0].trim();
-        let origin = splitTitle(data.search.from.title);
-        let tempData = data.segments.map(item => {
-          let from = splitTitle(item.thread.title);
-          let isTransit = from !== origin;
-          let segment = { ...item, isTransit };
-          return segment;
-        });
-        return tempData;
-      };
-
-      let schedules = formatData(action.payload);
-      draft.departures = schedules;
-      draft.sortedDepartures = schedules;
+      draft.departures = action.payload;
+      draft.sortedDepartures = action.payload;
       draft.loading = false;
       draft.error = false;
       return;

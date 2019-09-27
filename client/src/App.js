@@ -45,7 +45,7 @@ const App = () => {
       // console.log(result.data);
       dispatch({
         type: 'FETCH_DATA_SUCCESS',
-        payload: result.data
+        payload: result.data.segments
       });
       router.navigate('departures');
     } catch (error) {
