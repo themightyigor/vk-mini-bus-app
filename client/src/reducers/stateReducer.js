@@ -17,30 +17,23 @@ export const stateReducer = (draft, action) => {
       return;
     }
     case 'SET_FILTER': {
-      let newMode = action.payload;
+      let { mode, departures } = action.payload;
 
-      if (newMode === draft.mode) {
+      if (mode === draft.mode) {
         return;
       }
-      draft.mode = newMode;
 
-      let tempDepartures = draft.departures;
-
-      if (newMode !== 'all') {
-        let date = new Date();
-        let formattedDate = date.toDateString();
-
-        tempDepartures = tempDepartures.filter(
-          schedule =>
-            Date.parse(`${formattedDate} ${schedule.departure}`) > date
-        );
-      }
-
-      draft.sortedDepartures = tempDepartures;
+      draft.mode = mode;
+      draft.sortedDepartures = departures;
       return;
     }
     case 'TOGGLE_TOOLTIP': {
       draft.tooltip = false;
+      return;
+    }
+    case 'SET_INITIAL_MODE': {
+      draft.mode = 'all';
+      draft.sortedDepartures = draft.departures;
       return;
     }
     default:

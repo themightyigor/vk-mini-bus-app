@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { StateContext } from '../contexts/StateContext';
 import {
   Cell,
@@ -15,16 +15,32 @@ import Icon24Done from '@vkontakte/icons/dist/24/done';
 
 const DeparturesFilter = React.memo(({ router }) => {
   const [context, setContext] = useState(false);
-  const {
+
+  useEffect(() => {
+    return () => {
+      console.log('Component will unmount');
+      dispatch({ type: 'SET_INITIAL_MODE' });
+    };
+  }, []);
+
+  let {
     dispatch,
-    state: { mode }
+    state: { mode, departures }
   } = useContext(StateContext);
   // console.log(mode);
 
   const handleFilterSelect = e => {
-    const mode = e.currentTarget.dataset.mode;
+    let mode = e.currentTarget.dataset.mode;
 
-    dispatch({ type: 'SET_FILTER', payload: mode });
+    if (mode === 'hide') {
+      let date = new Date();
+      let formattedDate = date.toDateString();
+      departures = departures.filter(
+        schedule => Date.parse(`${formattedDate} ${schedule.departure}`) > date
+      );
+    }
+
+    dispatch({ type: 'SET_FILTER', payload: { mode, departures } });
     requestAnimationFrame(() => setContext(false));
   };
 
