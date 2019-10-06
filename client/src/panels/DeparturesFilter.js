@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StateContext } from '../contexts/StateContext';
 import {
   Cell,
@@ -15,13 +15,6 @@ import Icon24Done from '@vkontakte/icons/dist/24/done';
 
 const DeparturesFilter = React.memo(({ router }) => {
   const [context, setContext] = useState(false);
-
-  useEffect(() => {
-    return () => {
-      console.log('Component will unmount');
-      dispatch({ type: 'SET_INITIAL_MODE' });
-    };
-  }, []);
 
   let {
     dispatch,
@@ -47,7 +40,14 @@ const DeparturesFilter = React.memo(({ router }) => {
   return (
     <>
       <PanelHeader
-        left={<PanelHeaderBack onClick={() => router.navigate('home')} />}
+        left={
+          <PanelHeaderBack
+            onClick={() => {
+              router.navigate('home');
+              dispatch({ type: 'SET_INITIAL_MODE' });
+            }}
+          />
+        }
       >
         <PanelHeaderContent
           onClick={() => setContext(!context)}

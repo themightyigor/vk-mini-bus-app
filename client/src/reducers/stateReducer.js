@@ -33,7 +33,8 @@ export const stateReducer = (draft, action) => {
     }
     case 'SET_INITIAL_MODE': {
       draft.mode = 'all';
-      draft.sortedDepartures = draft.departures;
+      draft.sortedDepartures = [];
+      draft.departures = [];
       return;
     }
     default:
