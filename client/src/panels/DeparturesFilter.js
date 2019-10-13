@@ -18,22 +18,16 @@ const DeparturesFilter = React.memo(({ router }) => {
 
   let {
     dispatch,
-    state: { mode, departures }
+    state: { mode }
   } = useContext(StateContext);
   // console.log(mode);
 
   const handleFilterSelect = e => {
     let mode = e.currentTarget.dataset.mode;
+    let date = new Date();
+    let formattedDate = date.toDateString();
 
-    if (mode === 'hide') {
-      let date = new Date();
-      let formattedDate = date.toDateString();
-      departures = departures.filter(
-        schedule => Date.parse(`${formattedDate} ${schedule.departure}`) > date
-      );
-    }
-
-    dispatch({ type: 'SET_FILTER', payload: { mode, departures } });
+    dispatch({ type: 'SET_FILTER', payload: { mode, date, formattedDate } });
     requestAnimationFrame(() => setContext(false));
   };
 
