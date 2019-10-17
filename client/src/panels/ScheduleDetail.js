@@ -6,34 +6,35 @@ import {
   Spinner,
   Group,
   Cell,
+  Panel,
   List
 } from '@vkontakte/vkui';
 import PanelHeaderBack from '@vkontakte/vkui/dist/components/PanelHeaderBack/PanelHeaderBack';
-import StopTable from '../components/StopTable';
-import MapWithADirectionsRenderer from '../components/Map';
 import Icon24Info from '@vkontakte/icons/dist/24/info';
 import Icon24Recent from '@vkontakte/icons/dist/24/recent';
+import MapWithADirectionsRenderer from '../components/Map';
+import StopTable from '../components/StopTable';
 
 const initialDetailsState = {
   details: {},
   loading: true
 };
-const ScheduleDetail = ({ router, route }) => {
-  // console.log(route);
+
+const ScheduleDetail = ({ id, navigator }) => {
   const [details, setDetails] = useState(initialDetailsState);
   useEffect(() => {
     axios
-      .get(`api/details/${route.params.uid}`)
+      .get(`api/details/${navigator.params.uid}`)
       .then(res => {
         setDetails(res.data);
       })
       .catch(err => console.log(err));
   }, []);
-  // console.log(details);
+
   return (
-    <>
+    <Panel id={id}>
       <PanelHeader
-        left={<PanelHeaderBack onClick={() => router.navigate('departures')} />}
+        left={<PanelHeaderBack onClick={() => navigator.goBack()} />}
       >
         Детали
       </PanelHeader>
@@ -70,7 +71,7 @@ const ScheduleDetail = ({ router, route }) => {
           </Group>
         </>
       )}
-    </>
+    </Panel>
   );
 };
 

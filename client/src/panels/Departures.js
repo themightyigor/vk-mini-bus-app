@@ -1,22 +1,43 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import {
+  Panel,
+  Group,
+  Footer,
+  List,
+  Cell,
+  Tooltip,
+  PanelHeader,
+  PanelHeaderContent,
+  HeaderContext
+} from '@vkontakte/vkui';
+import PanelHeaderBack from '@vkontakte/vkui/dist/components/PanelHeaderBack/PanelHeaderBack';
+import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
+import Icon24Hide from '@vkontakte/icons/dist/24/hide';
+import Icon24View from '@vkontakte/icons/dist/24/view';
+import Icon24Done from '@vkontakte/icons/dist/24/done';
 import { StateContext } from '../contexts/StateContext';
 import persik from '../img/persik.png';
-import { Group, Footer, List, Cell, Tooltip } from '@vkontakte/vkui';
 
-const Departures = ({ router }) => {
+const Departures = ({ id, navigator }) => {
   const {
     dispatch,
     state: { sortedDepartures, mode, error, tooltip }
   } = useContext(StateContext);
+  const [context, setContext] = useState(false);
+
+  const handleFilterSelect = e => {
+    let mode = e.currentTarget.dataset.mode;
+    let date = new Date();
+    let formattedDate = date.toDateString();
+
+    dispatch({ type: 'SET_FILTER', payload: { mode, date, formattedDate } });
+    requestAnimationFrame(() => setContext(false));
+  };
 
   const renderCell = (departure, uid) => {
     return (
       <Cell
-        onClick={() =>
-          router.navigate('details', {
-            uid: uid
-          })
-        }
+        onClick={() => navigator.go('details', { uid })}
         description={departure.isTransit ? 'транзитный' : null}
         expandable
         key={uid}
@@ -26,51 +47,92 @@ const Departures = ({ router }) => {
     );
   };
 
-  if ((mode === 'hide' && !sortedDepartures.length) || error) {
-    return (
-      <>
-        <img
-          className='Persik'
-          style={{
-            display: 'block',
-            width: '50%',
-            maxWidth: '240px',
-            margin: '20px auto'
-          }}
-          src={persik}
-          alt='Persik The Cat'
-        />
-        <Footer>
-          {error ? 'Ошибка сервера' : 'К сожалению, все рейсы уже ушли'}
-        </Footer>
-      </>
-    );
-  }
-
   return (
-    <>
-      {' '}
-      <Group title='Время и дни отправления'>
+    <Panel id={id}>
+      <PanelHeader
+        left={
+          <PanelHeaderBack
+            onClick={() => {
+              navigator.goBack();
+              dispatch({ type: 'SET_INITIAL_MODE' });
+            }}
+          />
+        }
+      >
+        <PanelHeaderContent
+          onClick={() => setContext(!context)}
+          aside={<Icon16Dropdown />}
+        >
+          Отправление
+        </PanelHeaderContent>
+      </PanelHeader>
+      <HeaderContext opened={context} onClose={() => setContext(false)}>
         <List>
-          {sortedDepartures.map((departure, index) =>
-            index === 0 ? (
-              <Tooltip
-                key={index}
-                text='Для просмотра деталей нажмите на ячейку со временем'
-                isShown={tooltip}
-                onClose={() => dispatch({ type: 'TOGGLE_TOOLTIP' })}
-                offsetX={10}
-              >
-                {renderCell(departure.departure, departure.thread.uid)}
-              </Tooltip>
-            ) : (
-              renderCell(departure.departure, departure.thread.uid)
-            )
-          )}
+          <Cell
+            before={<Icon24View fill='var(--accent)' />}
+            asideContent={
+              mode === 'all' ? <Icon24Done fill='var(--accent)' /> : null
+            }
+            onClick={handleFilterSelect}
+            data-mode='all'
+          >
+            Показать все
+          </Cell>
+          <Cell
+            before={<Icon24Hide fill='var(--accent)' />}
+            asideContent={
+              mode === 'hide' ? <Icon24Done fill='var(--accent)' /> : null
+            }
+            onClick={handleFilterSelect}
+            data-mode='hide'
+          >
+            Скрыть ушедшие
+          </Cell>
         </List>
-      </Group>
-      <Footer>Найдено рейсов: {sortedDepartures.length}</Footer>
-    </>
+      </HeaderContext>
+
+      {mode === 'hide' && !sortedDepartures.length && error ? (
+        <>
+          <img
+            className='Persik'
+            style={{
+              display: 'block',
+              width: '50%',
+              maxWidth: '240px',
+              margin: '20px auto'
+            }}
+            src={persik}
+            alt='Persik The Cat'
+          />
+          <Footer>
+            {error ? 'Ошибка сервера' : 'К сожалению, все рейсы уже ушли'}
+          </Footer>
+        </>
+      ) : (
+        <>
+          <Group title='Время и дни отправления'>
+            <List>
+              {sortedDepartures.map((departure, index) =>
+                index === 0 ? (
+                  <Tooltip
+                    key={index}
+                    text='Для просмотра деталей нажмите на ячейку со временем'
+                    isShown={tooltip}
+                    onClose={() => dispatch({ type: 'TOGGLE_TOOLTIP' })}
+                    offsetX={10}
+                  >
+                    {renderCell(departure.departure, departure.thread.uid)}
+                  </Tooltip>
+                ) : (
+                  renderCell(departure.departure, departure.thread.uid)
+                )
+              )}
+            </List>
+          </Group>
+          <Footer>Найдено рейсов: {sortedDepartures.length}</Footer>
+        </>
+      )}
+    </Panel>
   );
 };
 

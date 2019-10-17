@@ -1,5 +1,5 @@
 import React from 'react';
-import { Group, List, PanelHeader, Cell } from '@vkontakte/vkui';
+import { Group, List, Panel, PanelHeader, Cell } from '@vkontakte/vkui';
 import Icon24Done from '@vkontakte/icons/dist/24/done';
 
 const cities = [
@@ -13,16 +13,18 @@ const cities = [
   }
 ];
 
-const SelectCity = props => {
-  const route = props.route;
-  const activeCity = route.params.state === 'from' ? props.from : props.to;
+const SelectCity = ({ navigator, id, cityFrom, cityTo, handleCitySelect }) => {
+  const activeCity = navigator.params.state === 'from' ? cityFrom : cityTo;
+  console.log(navigator);
 
   const renderCell = (city, code) => {
     return (
       <Cell
         key={code}
         onClick={() => {
-          props.handleCitySelect(route.params.state, city, code);
+          // console.log(city);
+          handleCitySelect(navigator.params.state, city, code);
+          navigator.goBack();
         }}
         asideContent={
           activeCity === city ? <Icon24Done fill='var(--accent)' /> : null
@@ -34,16 +36,14 @@ const SelectCity = props => {
   };
 
   return (
-    <div>
+    <Panel id={id}>
       <PanelHeader>
-        {route.name === 'from'
-          ? 'Выберите место отправления'
-          : 'Выберите место назначения'}
+        {navigator.params.state === 'from' ? 'Откуда' : 'Куда'}
       </PanelHeader>
       <Group>
         <List>{cities.map(city => renderCell(city.name, city.code))}</List>
       </Group>
-    </div>
+    </Panel>
   );
 };
 
