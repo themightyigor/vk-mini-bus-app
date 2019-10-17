@@ -52,11 +52,11 @@ const Home = ({ navigator, id, from, to, swapValues }) => {
       <FormLayout onSubmit={onSubmit}>
         <FormLayoutGroup>
           <SelectMimicry
-            name='from'
+            data-name='from'
             top='Куда'
-            onClick={() =>
+            onClick={e =>
               navigator.go('select', {
-                state: 'from'
+                state: e.currentTarget.dataset.name
               })
             }
           >
@@ -71,11 +71,11 @@ const Home = ({ navigator, id, from, to, swapValues }) => {
             <Icon24Repeat fill='var(--accent)' onClick={swapValues} />
           </div>
           <SelectMimicry
-            name='to'
+            data-name='to'
             top='Откуда'
-            onClick={() =>
+            onClick={e =>
               navigator.go('select', {
-                state: 'to'
+                state: e.currentTarget.dataset.name
               })
             }
           >

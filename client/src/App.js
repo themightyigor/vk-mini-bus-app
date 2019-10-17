@@ -1,10 +1,10 @@
 import React from 'react';
 import { Stack, Page } from 'vkui-navigator/dist';
 import '@vkontakte/vkui/dist/vkui.css';
-import SelectCity from './components/SelectCity';
-import ScheduleDetail from './panels/ScheduleDetail';
-import Departures from './panels/Departures';
 import Home from './panels/Home';
+import Departures from './panels/Departures';
+import ScheduleDetail from './panels/ScheduleDetail';
+import SelectCity from './panels/SelectCity';
 import useForm from './hooks/useForm';
 
 const App = () => {
