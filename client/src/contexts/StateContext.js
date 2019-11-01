@@ -3,8 +3,9 @@ import { useImmerReducer } from 'use-immer';
 import { stateReducer } from '../reducers/stateReducer';
 
 export const StateContext = React.createContext();
+export const DispatchContext = React.createContext();
 
-const StateContextProvider = props => {
+const StateProvider = props => {
   let initialState = {
     departures: [],
     sortedDepartures: [],
@@ -17,10 +18,12 @@ const StateContextProvider = props => {
   const [state, dispatch] = useImmerReducer(stateReducer, initialState);
 
   return (
-    <StateContext.Provider value={{ state, dispatch }}>
-      {props.children}
-    </StateContext.Provider>
+    <DispatchContext.Provider value={dispatch}>
+      <StateContext.Provider value={state}>
+        {props.children}
+      </StateContext.Provider>
+    </DispatchContext.Provider>
   );
 };
 
-export default StateContextProvider;
+export default StateProvider;

@@ -17,19 +17,10 @@ export const stateReducer = (draft, action) => {
       return;
     }
     case 'SET_FILTER': {
-      let { mode, date, formattedDate } = action.payload;
+      let { mode, tempDepartures } = action.payload;
 
       if (mode === draft.mode) {
         return;
-      }
-
-      let tempDepartures = draft.departures;
-
-      if (mode === 'hide') {
-        tempDepartures = tempDepartures.filter(
-          schedule =>
-            Date.parse(`${formattedDate} ${schedule.departure}`) > date
-        );
       }
 
       draft.mode = mode;

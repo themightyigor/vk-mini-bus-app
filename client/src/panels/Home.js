@@ -11,11 +11,11 @@ import {
 import axios from 'axios';
 import Icon24Repeat from '@vkontakte/icons/dist/24/repeat';
 import logo from '../logo.svg';
-import { StateContext } from '../contexts/StateContext';
+import { DispatchContext } from '../contexts/StateContext';
 import Footer from '../components/Footer';
 
 const Home = ({ navigator, id, from, to, swapValues }) => {
-  const { dispatch } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
 
   const fetchData = async (from, to) => {
     dispatch({ type: 'FETCH_DATA_REQUEST' });

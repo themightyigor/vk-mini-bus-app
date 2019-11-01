@@ -15,22 +15,33 @@ import Icon16Dropdown from '@vkontakte/icons/dist/16/dropdown';
 import Icon24Hide from '@vkontakte/icons/dist/24/hide';
 import Icon24View from '@vkontakte/icons/dist/24/view';
 import Icon24Done from '@vkontakte/icons/dist/24/done';
-import { StateContext } from '../contexts/StateContext';
+import { StateContext, DispatchContext } from '../contexts/StateContext';
 import persik from '../img/persik.png';
 
 const Departures = ({ id, navigator }) => {
-  const {
-    dispatch,
-    state: { sortedDepartures, mode, error, tooltip }
-  } = useContext(StateContext);
+  const state = useContext(StateContext);
+  console.log(state);
+  const dispatch = useContext(DispatchContext);
+  const { departures, sortedDepartures, mode, error, tooltip } = state;
+
   const [context, setContext] = useState(false);
 
   const handleFilterSelect = e => {
     let mode = e.currentTarget.dataset.mode;
-    let date = new Date();
-    let formattedDate = date.toDateString();
 
-    dispatch({ type: 'SET_FILTER', payload: { mode, date, formattedDate } });
+    let tempDepartures = [...departures];
+
+    // Filter by outbound departure time
+    if (mode === 'hide') {
+      let date = new Date();
+      let formattedDate = date.toDateString();
+
+      tempDepartures = tempDepartures.filter(
+        schedule => Date.parse(`${formattedDate} ${schedule.departure}`) > date
+      );
+    }
+
+    dispatch({ type: 'SET_FILTER', payload: { mode, tempDepartures } });
     requestAnimationFrame(() => setContext(false));
   };
 
@@ -91,7 +102,7 @@ const Departures = ({ id, navigator }) => {
         </List>
       </HeaderContext>
 
-      {mode === 'hide' && !sortedDepartures.length && error ? (
+      {(mode === 'hide' && !sortedDepartures.length) || error ? (
         <>
           <img
             className='Persik'
