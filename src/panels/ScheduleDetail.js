@@ -14,17 +14,22 @@ import Icon24Info from '@vkontakte/icons/dist/24/info';
 import Icon24Recent from '@vkontakte/icons/dist/24/recent';
 import MapWithADirectionsRenderer from '../components/Map';
 import StopTable from '../components/StopTable';
+import { API_KEY, DETAIL_URL } from '../constants';
 
-const initialDetailsState = {
+const initialDetailState = {
   details: {},
   loading: true
 };
 
 const ScheduleDetail = ({ id, navigator }) => {
-  const [details, setDetails] = useState(initialDetailsState);
+  const [details, setDetails] = useState(initialDetailState);
+
   useEffect(() => {
     axios
-      .get(`api/details/${navigator.params.uid}`)
+      .get(
+        `https://cors-anywhere.herokuapp.com/${DETAIL_URL}/?apikey=${API_KEY}&
+        format=json&uid=${navigator.params.uid}&lang=ru_RU&show_systems=all`
+      )
       .then(res => {
         setDetails(res.data);
       })

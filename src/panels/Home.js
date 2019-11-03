@@ -13,6 +13,7 @@ import Icon24Repeat from '@vkontakte/icons/dist/24/repeat';
 import logo from '../logo.svg';
 import { DispatchContext } from '../contexts/StateContext';
 import Footer from '../components/Footer';
+import { API_KEY, SEARCH_URL } from '../constants';
 
 const Home = ({ navigator, id, from, to, swapValues }) => {
   const dispatch = useContext(DispatchContext);
@@ -21,7 +22,9 @@ const Home = ({ navigator, id, from, to, swapValues }) => {
     dispatch({ type: 'FETCH_DATA_REQUEST' });
     navigator.showLoader();
     try {
-      const result = await axios(`api/departures/${from}/${to}`);
+      const result = await axios(
+        `https://cors-anywhere.herokuapp.com/${SEARCH_URL}/?apikey=${API_KEY}&format=json&transport_types=bus&from=${from}&to=${to}&lang=ru_RU&page=1`
+      );
       // console.log(result.data);
       dispatch({
         type: 'FETCH_DATA_SUCCESS',

@@ -1,35 +1,51 @@
 {
   "name": "vk-mini-bus-app",
   "version": "1.0.0",
-  "description": "VK Mini App built using React Hooks & Context API",
-  "main": "server.js",
+  "description": "<div align=\"center\">   <a href=\"https://github.com/VKCOM\">     <img width=\"100\" height=\"100\" src=\"https://avatars3.githubusercontent.com/u/1478241?s=200&v=4\">   </a>   <br>   <br>",
+  "main": "index.js",
+  "homepage": "https://themightyigor.github.io/vk-mini-bus-app",
+  "proxy": "http://localhost:5000/",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build --git git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "react-hot-loader": "^4.9.0",
+    "react-scripts": "^2.1.8"
+  },
+  "dependencies": {
+    "@vkontakte/icons": "^1.8.0",
+    "@vkontakte/vk-connect": "^1.5.5",
+    "@vkontakte/vkui": "2.26.3-rc.0",
+    "axios": "^0.19.0",
+    "chalk": "^2.4.2",
+    "core-js": "^2.6.9",
+    "gh-pages": "^2.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-google-maps": "^9.4.5",
+    "recompose": "^0.30.0",
+    "use-immer": "^0.3.3",
+    "vkui-navigator": "^1.2.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/themightyigor/vk-mini-bus-schedule.git"
+    "url": "git+https://github.com/themightyigor/vk-mini-bus-app"
   },
-  "keywords": [
-    "Igor",
-    "Rabizov"
-  ],
-  "author": "",
-  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/themightyigor/vk-mini-bus-schedule/issues"
-  },
-  "homepage": "https://github.com/themightyigor/vk-mini-bus-schedule#readme",
-  "dependencies": {
-    "concurrently": "^4.1.2",
-    "express": "^4.17.1",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
-    "nodemon": "^1.19.2"
+    "url": "https://github.com/themightyigor/vk-mini-bus-app/issues"
   }
 }

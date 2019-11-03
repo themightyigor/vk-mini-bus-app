@@ -17,14 +17,10 @@ export const stateReducer = (draft, action) => {
       return;
     }
     case 'SET_FILTER': {
-      let { mode, tempDepartures } = action.payload;
-
-      if (mode === draft.mode) {
+      if (action.payload === draft.mode) {
         return;
       }
-
-      draft.mode = mode;
-      draft.sortedDepartures = tempDepartures;
+      draft.mode = action.payload;
       return;
     }
     case 'TOGGLE_TOOLTIP': {
