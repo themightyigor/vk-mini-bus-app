@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "9039efa06ff5d37bd0dc",
+    "revision": "26e8c06b5912c1bef284",
     "url": "/vk-mini-bus-app/static/css/main.228c8419.chunk.css"
   },
   {
-    "revision": "9039efa06ff5d37bd0dc",
-    "url": "/vk-mini-bus-app/static/js/main.dc3427f7.chunk.js"
+    "revision": "26e8c06b5912c1bef284",
+    "url": "/vk-mini-bus-app/static/js/main.ac442095.chunk.js"
   },
   {
     "revision": "1f20922e78e33cd7d9d7",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/vk-mini-bus-app/static/media/persik.7a7c06ad.png"
   },
   {
-    "revision": "6dfbf346071f4c5bce38a0221aa6131b",
+    "revision": "fb123554dda8bef1924f1d75aad251ed",
     "url": "/vk-mini-bus-app/index.html"
   }
 ];
