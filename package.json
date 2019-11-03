@@ -4,7 +4,6 @@
   "description": "<div align=\"center\">   <a href=\"https://github.com/VKCOM\">     <img width=\"100\" height=\"100\" src=\"https://avatars3.githubusercontent.com/u/1478241?s=200&v=4\">   </a>   <br>   <br>",
   "main": "index.js",
   "homepage": "https://themightyigor.github.io/vk-mini-bus-app",
-  "proxy": "http://localhost:5000/",
   "scripts": {
     "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
     "build": "react-scripts build",
