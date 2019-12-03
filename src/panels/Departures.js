@@ -4,26 +4,25 @@ import { StateContext, DispatchContext } from '../contexts/StateContext';
 import Header from '../components/Header';
 import DepartureList from '../components/DepartureList';
 
+const getVisibleDepartures = (departures, mode) => {
+  switch (mode) {
+    case 'all':
+      return departures;
+    case 'hide':
+      let date = new Date();
+      let formattedDate = date.toDateString();
+      return departures.filter(
+        schedule => Date.parse(`${formattedDate} ${schedule.departure}`) > date
+      );
+    default:
+      throw new Error(`Unknown mode: ${mode}`);
+  }
+};
+
 const Departures = ({ id, navigator }) => {
   const state = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
   const { departures, mode, error, tooltip } = state;
-
-  const getVisibleDepartures = () => {
-    switch (mode) {
-      case 'all':
-        return departures;
-      case 'hide':
-        let date = new Date();
-        let formattedDate = date.toDateString();
-        return departures.filter(
-          schedule =>
-            Date.parse(`${formattedDate} ${schedule.departure}`) > date
-        );
-      default:
-        throw new Error(`Unknown mode: ${mode}`);
-    }
-  };
 
   const toggleTooltip = () => dispatch({ type: 'TOGGLE_TOOLTIP' });
   const setFilter = mode => dispatch({ type: 'SET_FILTER', payload: mode });
@@ -34,13 +33,11 @@ const Departures = ({ id, navigator }) => {
     dispatch({ type: 'SET_INITIAL_MODE' });
   };
 
-  const visibleDepartures = getVisibleDepartures();
-
   return (
     <Panel id={id}>
       <Header mode={mode} setFilter={setFilter} goBack={goBack} />
       <DepartureList
-        departures={visibleDepartures}
+        departures={getVisibleDepartures(departures, mode)}
         mode={mode}
         error={error}
         tooltip={tooltip}

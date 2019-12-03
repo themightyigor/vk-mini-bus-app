@@ -2,7 +2,6 @@ export const stateReducer = (draft, action) => {
   switch (action.type) {
     case 'FETCH_DATA_SUCCESS': {
       draft.departures = action.payload;
-      draft.sortedDepartures = action.payload;
       draft.loading = false;
       draft.error = false;
       return;
@@ -29,7 +28,6 @@ export const stateReducer = (draft, action) => {
     }
     case 'SET_INITIAL_MODE': {
       draft.mode = 'all';
-      draft.sortedDepartures = [];
       draft.departures = [];
       return;
     }
