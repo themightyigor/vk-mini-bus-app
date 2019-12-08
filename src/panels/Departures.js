@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import { Panel } from '@vkontakte/vkui';
 import { StateContext, DispatchContext } from '../contexts/StateContext';
 import Header from '../components/Header';
@@ -24,20 +24,35 @@ const Departures = ({ id, navigator }) => {
   const dispatch = useContext(DispatchContext);
   const { departures, mode, error, tooltip } = state;
 
-  const toggleTooltip = () => dispatch({ type: 'TOGGLE_TOOLTIP' });
-  const setFilter = mode => dispatch({ type: 'SET_FILTER', payload: mode });
+  const toggleTooltip = useCallback(() => {
+    dispatch({ type: 'TOGGLE_TOOLTIP' });
+  }, []);
 
-  const goNext = (panel, uid) => navigator.go(panel, { uid });
-  const goBack = () => {
+  const setFilter = useCallback(
+    mode => {
+      dispatch({ type: 'SET_FILTER', payload: mode });
+    },
+    [mode]
+  );
+
+  const goNext = useCallback((panel, uid) => {
+    navigator.go(panel, { uid });
+  }, []);
+
+  const goBack = useCallback(() => {
     navigator.goBack();
     dispatch({ type: 'SET_INITIAL_MODE' });
-  };
+  }, []);
+
+  const visibleDepartures = useMemo(() => {
+    return getVisibleDepartures(departures, mode);
+  }, [departures, mode]);
 
   return (
     <Panel id={id}>
       <Header mode={mode} setFilter={setFilter} goBack={goBack} />
       <DepartureList
-        departures={getVisibleDepartures(departures, mode)}
+        departures={visibleDepartures}
         mode={mode}
         error={error}
         tooltip={tooltip}
